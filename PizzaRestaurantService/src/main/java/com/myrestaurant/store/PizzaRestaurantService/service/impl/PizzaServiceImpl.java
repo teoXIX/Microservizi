@@ -53,7 +53,7 @@ public class PizzaServiceImpl implements PizzaService {
 
     @Override
     public List<Pizza> findByRestaurantId(Long restaurantId) {
-        List<Pizza> pizzas = repository.findByRestaurantIn(
+        List<Pizza> pizzas = repository.findByRestaurantsIn(
                 List.of(Restaurant.builder()
                         .id(restaurantId)
                         .build())
