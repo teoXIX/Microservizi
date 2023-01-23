@@ -1,26 +1,27 @@
 package com.myrestaurant.store.PizzaRestaurantService.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.io.*;
-import java.util.*;
+import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
-@Builder
-@Table(name = "toppings")
-public class Topping implements Serializable{
+@Table(name = "drivers")
+public class Driver implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "topping_id")
+    @Column(name = "driver_id")
     private Long id;
 
     @NotBlank
@@ -28,8 +29,8 @@ public class Topping implements Serializable{
     @Column(name = "name")
     private String name;
 
-    @ManyToMany(mappedBy = "toppings")
+    @ManyToMany(mappedBy = "drivers")
     @JsonIgnore
-    /*toppings nome variabile nella classe Pizza dopo many to many*/
-    private Set<Pizza> pizzas = new HashSet<>();
+    private Set<Restaurant> restaurants = new HashSet<>();
+
 }

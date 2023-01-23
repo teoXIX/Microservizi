@@ -27,7 +27,7 @@ public class PizzaServiceImpl implements PizzaService {
     }
 
     @Override
-    public void deleteBYìyId(Long id) {
+    public void deleteById(Long id) {
         repository.deleteById(id);
     }
 

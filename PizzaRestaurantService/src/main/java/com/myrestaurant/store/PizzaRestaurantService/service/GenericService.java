@@ -7,7 +7,7 @@ public interface GenericService<E, M>{
 
     List<E> save(List<E> entities);
 
-    void deleteBYìyId(M id);
+    void deleteById(M id);
 
     Optional<E> findById(M id);
 

@@ -28,7 +28,7 @@ public class ToppingServiceImpl implements ToppingService {
     }
 
     @Override
-    public void deleteBYìyId(Long id) {
+    public void deleteById(Long id) {
         repository.deleteById(id);
     }
 
