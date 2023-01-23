@@ -17,6 +17,6 @@ public class DriverDTO {
 
     private String name;
 
-    private Set<Restaurant> restaurants = new HashSet<>();
+    private Set<Restaurant> restaurants;
 
 }
