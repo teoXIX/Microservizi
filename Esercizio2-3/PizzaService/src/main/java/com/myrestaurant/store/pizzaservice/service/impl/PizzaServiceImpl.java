@@ -66,13 +66,15 @@ public class PizzaServiceImpl implements PizzaService {
         return pizzas;
     }
 
-    /*@Override
-    public List<Pizza> findByRestaurantId(Long restaurantId) {
-        List<Pizza> pizzas = repository.findByRestaurantsIn(
-                List.of(Restaurant.builder()
-                        .id(restaurantId)
-                        .build())
-        );
+    @Override
+    public List<Pizza> addPizzasToRestaurant(List<RestaurantIds> restaurantIds) {
+        List<RestaurantIds> result = restaurantIdsRepository.saveAll(restaurantIds);
+        List<Pizza> pizzas = new ArrayList<>(result.size());
+        for (RestaurantIds el : result){
+            pizzas.add(pizzaRepository.findById(el.getPizzaId()).get());
+        }
+        restaurantIdsRepository.saveAll(restaurantIds);
+
         return pizzas;
-    }*/
+    }
 }

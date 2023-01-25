@@ -1,6 +1,9 @@
 package com.myrestaurant.store.pizzaservice.controller.impl;
 
 import com.myrestaurant.store.pizzaservice.controller.PizzaController;
+import com.myrestaurant.store.pizzaservice.dto.RestaurantIdsDTO;
+import com.myrestaurant.store.pizzaservice.mapper.RestaurantIdsMapper;
+import com.myrestaurant.store.pizzaservice.model.RestaurantIds;
 import com.myrestaurant.store.pizzaservice.service.PizzaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,25 +20,24 @@ import java.util.List;
 public class PizzaControllerImpl implements PizzaController {
 
     private final PizzaService pizzaService;
-
+    private final RestaurantIdsMapper restaurantIdsMapper;
     private final PizzaMapper pizzaMapper;
 
-    /*@Override
-    @GetMapping("/restaurant/{id}")
-    public List<PizzaDTO> findByRestaurantId(@PathVariable("id") Long restaurantId) {
-        List<Pizza> pizzas = pizzaService.findByRestaurantId(restaurantId);
-        return pizzaMapper.asDTOList(pizzas);
-    }*/
+    @Override
+    @PostMapping("/restaurant")
+    public List<PizzaDTO> addPizzaToRestaurant(List<RestaurantIdsDTO> restaurantIdsDTOS) {
+        List<RestaurantIds> restaurantIds = restaurantIdsMapper.asEntity(restaurantIdsDTOS);
+        return pizzaMapper.asDTOList(pizzaService.addPizzasToRestaurant(restaurantIds));
+    }
 
     @Override
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public PizzaDTO save(@RequestBody PizzaDTO pizzaDTO) {
         Pizza pizza = pizzaMapper.asEntity(pizzaDTO);
-        Pizza saved = pizzaService.save(pizza);
-        PizzaDTO dto = pizzaMapper.asDTO(saved);
-        return dto;
+        return pizzaMapper.asDTO(pizzaService.save(pizza));
     }
+
 
     @Override
     @GetMapping("/{id}")
@@ -45,22 +47,30 @@ public class PizzaControllerImpl implements PizzaController {
     }
 
     @Override
-    @DeleteMapping
-    public void Delete(@PathVariable("id") Long id) {
-        pizzaService.deleteById(id);
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable("id") Long id) {
+        pizzaService.deleteByid(id);
     }
 
     @Override
-    @GetMapping
-    public List<PizzaDTO> list() {
-        List<Pizza> pizzas = pizzaService.findAll();
+    @GetMapping("/restaurant/{id}")
+    public List<PizzaDTO> findByRestaurantId(@PathVariable("id")Long restaurantId) {
+        List<Pizza> pizzas = pizzaService.findByRestaurantId(restaurantId);
         return pizzaMapper.asDTOList(pizzas);
     }
 
     @Override
-    @PutMapping("/{id}")
+    @GetMapping("/lista")
+    public List<PizzaDTO> list() {
+        return pizzaMapper.asDTOList(pizzaService.findAll());
+    }
+
+    @Override
+    @PutMapping({"/{id}"})
     public PizzaDTO update(@RequestBody PizzaDTO pizzaDTO, @PathVariable("id") Long id) {
         Pizza pizza = pizzaMapper.asEntity(pizzaDTO);
         return pizzaMapper.asDTO(pizzaService.update(pizza, id));
+
     }
+
 }

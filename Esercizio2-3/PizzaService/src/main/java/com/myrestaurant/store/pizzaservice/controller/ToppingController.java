@@ -8,7 +8,7 @@ import java.util.List;
 import com.myrestaurant.store.pizzaservice.dto.ToppingDTO;
 
 @Api(tags = "Topping API")
-public interface ToppingController {
+public interface    ToppingController {
 
     @ApiOperation("Add new topping")
     public ToppingDTO save(@RequestBody ToppingDTO toppingDTO);

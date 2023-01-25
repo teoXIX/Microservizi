@@ -1,6 +1,7 @@
 package com.myrestaurant.store.restaurantservice.controller.impl;
 
 import com.myrestaurant.store.restaurantservice.controller.RestaurantController;
+import com.myrestaurant.store.restaurantservice.dto.RestaurantIdsDTO;
 import com.myrestaurant.store.restaurantservice.mapper.RestaurantMapper;
 import com.myrestaurant.store.restaurantservice.service.RestaurantService;
 import com.myrestaurant.store.restaurantservice.model.Restaurant;
@@ -26,20 +27,11 @@ public class RestaurantControllerImpl implements RestaurantController {
     @Value("${app.pizza-service-url}")
     private String pizzaServiceUrl;
 
-    /*@Override
-    @PostMapping("/addPizzas")
-    @ResponseStatus(HttpStatus.CREATED)
-    public RestaurantDTO addPizzasToRestaurant(@RequestBody RestaurantDTO restaurantDTO) {
-        Restaurant restaurant = restaurantMapper.asEntity(restaurantDTO);
-        return restaurantMapper.asDTO(restaurantService.addPizzasToRestaurant(restaurant));
-    }*/
-
     @Override
-    @GetMapping("/pizzas/{restaurantId}")
-    public List<Object> getPizzasByRestaurantId(@PathVariable("restaurantId") Long restaurantId) {
+    @PostMapping("/addPizzas")
+    public List<Object> addPizzasToRestaurant(List<RestaurantIdsDTO> restaurantIdsDTOS) {
         RestTemplate restTemplate = new RestTemplate();
-        /*simula la chiamata Client*/
-        return List.of(Objects.requireNonNull(restTemplate.getForObject(pizzaServiceUrl + "/" + restaurantId, Object[].class)));
+        return List.of(restTemplate.postForObject(pizzaServiceUrl,restaurantIdsDTOS,Object[].class));
     }
 
     @Override
@@ -47,9 +39,7 @@ public class RestaurantControllerImpl implements RestaurantController {
     @ResponseStatus(HttpStatus.CREATED)
     public RestaurantDTO save(@RequestBody RestaurantDTO restaurantDTO) {
         Restaurant restaurant = restaurantMapper.asEntity(restaurantDTO);
-        Restaurant saved = restaurantService.save(restaurant);
-        RestaurantDTO dto = restaurantMapper.asDTO(saved);
-        return dto;
+        return restaurantMapper.asDTO(restaurantService.save(restaurant));
     }
 
     @Override
@@ -60,23 +50,30 @@ public class RestaurantControllerImpl implements RestaurantController {
     }
 
     @Override
-    @DeleteMapping
-    public void Delete(@PathVariable("id") Long id) {
+    @DeleteMapping("/{id}")
+    public void delete( @PathVariable("id") Long id) {
         restaurantService.deleteById(id);
     }
 
     @Override
     @GetMapping
     public List<RestaurantDTO> list() {
-        List<Restaurant> restaurants = restaurantService.findAll();
-        return restaurantMapper.asDTOList(restaurants);
+        return restaurantMapper.asDTOList(restaurantService.findAll());
     }
 
     @Override
-    @PutMapping("/{id}")
-    public RestaurantDTO update(@RequestBody RestaurantDTO restaurantDTO, @PathVariable("id") Long id) {
+    @PutMapping({"/{id}"})
+    public RestaurantDTO update(@RequestBody RestaurantDTO restaurantDTO,@PathVariable("id") Long id) {
         Restaurant restaurant = restaurantMapper.asEntity(restaurantDTO);
-        return restaurantMapper.asDTO(restaurantService.update(restaurant, id));
+        return restaurantMapper.asDTO(restaurantService.update(restaurant,id));
+
+    }
+
+    @Override
+    @GetMapping("/pizzas/{restaurantId}")
+    public List<Object> GetPizzasByRestaurantId(@PathVariable("restaurantId") Long restaurantId) {
+        RestTemplate restTemplate = new RestTemplate();
+        return List.of(Objects.requireNonNull(restTemplate.getForObject(pizzaServiceUrl + "/"+ restaurantId , Object[].class)));
     }
 }
 
