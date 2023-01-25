@@ -6,6 +6,7 @@ import com.myrestaurant.store.restaurantservice.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Optional;
@@ -28,18 +29,24 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(@PathVariable("id")Long id) {
         repository.deleteById(id);
+
     }
 
     @Override
     public Optional<Restaurant> findById(Long id) {
-        return repository.findById(id);
+        return repository.findById(id) ;
     }
 
     @Override
-    public List<Restaurant> findAll() {
-        return (List<Restaurant>)repository.findAll();
+    public List<Restaurant> findAll(){
+        return repository.findAll();
+    }
+
+    @Override
+    public Restaurant addPizzasToRestaurant(Restaurant restaurant) {
+        return repository.save(restaurant);
     }
 
     @Override
@@ -50,10 +57,5 @@ public class RestaurantServiceImpl implements RestaurantService {
         }
         return null;
     }
-
-    /*@Override
-    public Restaurant addPizzasToRestaurant(Restaurant restaurant) {
-        return repository.save(restaurant);
-    }*/
 }
 
