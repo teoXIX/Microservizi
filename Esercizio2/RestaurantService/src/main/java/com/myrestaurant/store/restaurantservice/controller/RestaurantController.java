@@ -14,6 +14,9 @@ public interface RestaurantController {
     /*@ApiOperation("Add pizzas to the restaurant")
     public RestaurantDTO addPizzasToRestaurant(@RequestBody RestaurantDTO restaurantDTO);*/
 
+    @ApiOperation("Find all pizzas by restaurant ID")
+    public List<Object> getPizzasByRestaurantId(@PathVariable("id") Long restaurantId);
+
     @ApiOperation("Add new restaurant")
     public RestaurantDTO save(@RequestBody RestaurantDTO restaurantDTO);
 
