@@ -49,7 +49,7 @@ public class PizzaControllerImpl implements PizzaController {
     @Override
     @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") Long id) {
-        pizzaService.deleteByid(id);
+        pizzaService.deleteById(id);
     }
 
     @Override
