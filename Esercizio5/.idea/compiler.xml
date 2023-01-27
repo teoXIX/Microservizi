@@ -2,10 +2,12 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="DiscoveryService" />
         <module name="NotificationService" />
       </profile>
       <profile name="Annotation profile for RestaurantService" enabled="true">
@@ -23,6 +25,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="DiscoveryService" target="19" />
       <module name="NotificationService" target="19" />
       <module name="PizzaService" target="19" />
       <module name="RestaurantService" target="19" />
@@ -30,6 +33,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="DiscoveryService" options="-parameters" />
       <module name="NotificationService" options="-parameters" />
       <module name="PizzaService" options="-parameters" />
       <module name="RestaurantService" options="-parameters" />

@@ -1,6 +1,5 @@
 package com.myrestaurant.store.RestaurantService.listener;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
@@ -12,10 +11,11 @@ import java.util.List;
 public class PizzasToRestaurantAddedListner {
 
     @RabbitListener(queues = {"${app.rabbitmq.pizzas-added-routingkey}"})
-    public void onPizzasToRestaurantAdded(List<Object> pizzas) throws JsonProcessingException {
+    public void onPizzasToRestaurantAdded(List<Object> pizzas) {
         log.info("Into onPizzasToRestaurantAdded method! -> Now do everything!!!");
+
         for(Object pizza : pizzas) {
-            log.info("Pizza -> {}", pizza.toString());
+            log.info("Pizza -> {} ", pizza.toString());
         }
 
     }

@@ -6,6 +6,7 @@ import com.myrestaurant.store.PizzaService.model.Pizza;
 import com.myrestaurant.store.PizzaService.model.RestaurantIds;
 import com.myrestaurant.store.PizzaService.service.PizzaService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.util.Optional;
 @Service
 @Transactional
 @RequiredArgsConstructor
+@Slf4j
 public class PizzaServiceImpl implements PizzaService {
 
     private final PizzaRepository pizzaRepository;
@@ -28,7 +30,6 @@ public class PizzaServiceImpl implements PizzaService {
 
     @Value("${app.rabbitmq.pizzas-added-routingkey}")
     private String pizzasToRestaurantAddRoutingKey;
-
 
     @Value("${app.rabbitmq.notify-pizzas-added-routingkey}")
     private String notifyPizzasToRestaurantAddRoutingKey;
@@ -45,14 +46,17 @@ public class PizzaServiceImpl implements PizzaService {
 
     @Override
     public List<Pizza> addPizzasToRestaurant(List<RestaurantIds> restaurantIds) {
+        log.info("into addPizzasToRestaurant method!");
         List<Pizza> pizzas = new ArrayList<>();
         for (RestaurantIds el : restaurantIds) {
             pizzas.add(pizzaRepository.findById(el.getPizzaId()).get());
         }
         restaurantIdsRepository.saveAll(restaurantIds);
         rabbitTemplate.convertAndSend("", pizzasToRestaurantAddRoutingKey , pizzas);
+
         String message = "Added n. " + pizzas.size() + " pizzas!";
-        rabbitTemplate.convertAndSend("", notifyPizzasToRestaurantAddRoutingKey , message);
+
+        rabbitTemplate.convertAndSend("", notifyPizzasToRestaurantAddRoutingKey, message);
         return pizzas;
     }
 

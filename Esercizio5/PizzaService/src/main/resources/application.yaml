@@ -25,7 +25,7 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
 server:
-  port: 9090
+  port: 0
   servlet:
     context-path: /api
 
@@ -34,3 +34,10 @@ app:
     add-pizzas-routingkey: q.add-pizzas-to-restaurant
     pizzas-added-routingkey: q.pizzas-added-to-restaurant
     notify-pizzas-added-routingkey: q.notify-pizzas-added-to-restaurant
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: false
+    service-url:
+      defaultZone: http://localhost:8761/eureka

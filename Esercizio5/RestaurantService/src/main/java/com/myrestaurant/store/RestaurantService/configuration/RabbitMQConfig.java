@@ -26,8 +26,7 @@ public class RabbitMQConfig {
     @Value("${app.rabbitmq.pizzas-added-routingkey}")
     private String pizzasToRestaurantAddedRoutingKey;
 
-
-    @Value("${app.rabbitmq.notyfy-pizzas-added-routingkey}")
+    @Value("${app.rabbitmq.notify-pizzas-added-routingkey}")
     private String notifyPizzasToRestaurantAddedRoutingKey;
 
     public RabbitMQConfig(CachingConnectionFactory cachingConnectionFactory) {
@@ -45,7 +44,6 @@ public class RabbitMQConfig {
         return QueueBuilder.durable(pizzasToRestaurantAddedRoutingKey)
                 .build();
     }
-
 
     @Bean
     public Queue notifyPizzasToRestaurantAddedQueue() {

@@ -7,8 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -20,7 +18,7 @@ public class NotificationListner {
 
     @RabbitListener(queues = {"${app.rabbitmq.notify-pizzas-added-routingkey}"})
     public void onNotifyPizzasToRestaurantAdded(String message) {
-        log.info("Into onNotifyPizzasToRestaurantAdded method.");
+        log.info("Into onAddPizzasToRestaurant method.");
         emailService.sendMessagge(message);
         smsService.sendMessagge(message);
     }
