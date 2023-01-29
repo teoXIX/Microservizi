@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: CONFIG-SERVICE
+  cloud:
+    config:
+      server:
+        git:
+          uri: file://${user.home}/Users\marco\Documents\MicroServices\Esercizio5\ConfigRepo
+          clone-on-start: true
+
+server:
+  servlet:
+    context-path: /config
+  port: 8888
+
+
